@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp"
+    >
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Panel de Control"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textColor="@color/navy"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SportClub - Administración"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="@color/navy"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdministrador"
+                app:icon="@drawable/ic_administrador"
+                app:iconGravity="textTop"
+                app:iconSize="48dp"
+                app:iconPadding="8dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="300dp"
+                android:layout_marginTop="20dp"
+                android:text="Administrador"
+                android:textColor="@color/white"
+                android:layout_marginEnd="10dp"
+                app:backgroundTint="@color/navy_splash"
+                app:cornerRadius="12dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                app:icon="@drawable/ic_carnets"
+                app:iconGravity="textTop"
+                app:iconSize="48dp"
+                app:iconPadding="8dp"
+                android:id="@+id/btnCarnet"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:text="Carnets"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/green_700"
+                app:cornerRadius="12dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp"
+                app:iconTint="@null"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                app:icon="@drawable/ic_cuotas"
+                app:iconGravity="textTop"
+                app:iconSize="48dp"
+                app:iconPadding="8dp"
+                android:id="@+id/btnCuotas"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="300dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="Cuotas"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/blue_377"
+                app:cornerRadius="12dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp"
+                app:iconTint="@null"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                app:icon="@drawable/ic_reportes"
+                app:iconGravity="textTop"
+                app:iconSize="48dp"
+                app:iconPadding="8dp"
+                android:id="@+id/btnReportes"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:text="Reportes"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/green_500"
+                app:cornerRadius="12dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp"
+                app:iconTint="@null"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="20dp"
+        android:id="@+id/btnCancelar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CERRAR SESIÓN"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/white"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        app:cornerRadius="12dp"/>
+
+</LinearLayout>

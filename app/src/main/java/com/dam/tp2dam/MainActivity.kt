@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         actualizarUI()
         setupClickListeners()
+
     }
 
     private fun actualizarUI() {

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,38 +13,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tp2Dam">
-
-        <!-- Splash: punto de entrada -->
+        <activity
+            android:name=".app.ui.administrador.AdministradorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".app.ui.reportes.ReportesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".app.ui.carnets.CarnetsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".app.ui.cuotas.CuotasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".app.ui.panel.control.PanelControlActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Tp2Dam.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Pantalla principal -->
+        </activity> <!-- Pantalla principal -->
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-
-        <!-- Acceso Administrador -->
+            android:exported="false" /> <!-- Acceso Administrador -->
         <activity
             android:name=".app.ui.auth.login.AdminLoginActivity"
-            android:exported="false" />
-
-        <!-- Registro Socio -->
+            android:exported="false" /> <!-- Registro Socio -->
         <activity
             android:name=".app.ui.socio.RegisterSocioActivity"
-            android:exported="false" />
-
-        <!-- Registro No Socio -->
+            android:exported="false" /> <!-- Registro No Socio -->
         <activity
             android:name=".app.ui.nosocio.RegisterNoSocioActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

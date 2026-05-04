@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.tp2dam.R
@@ -19,7 +18,6 @@ class ReportesActivity : AppCompatActivity() {
 
         val btnBack = findViewById<ImageView>(R.id.btnBack)
         btnBack.setOnClickListener {
-            Toast.makeText(this, "Click detectado", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, PanelControlActivity::class.java)
             startActivity(intent)
         }

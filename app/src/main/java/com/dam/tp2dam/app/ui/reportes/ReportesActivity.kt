@@ -1,16 +1,33 @@
 package com.dam.tp2dam.app.ui.reportes
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.dam.tp2dam.R
+import com.dam.tp2dam.app.ui.panel.control.PanelControlActivity
 
 class ReportesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_reportes)
+
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            Toast.makeText(this, "Click detectado", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, PanelControlActivity::class.java)
+            startActivity(intent)
+        }
+
+        val opciones = listOf("Cuotas que vencen hoy", "Socios con deuda", "Socios al día", "Todos los socios")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, opciones)
+
+        val autoComplete = findViewById<AutoCompleteTextView>(R.id.autoCompleteReportes)
+        autoComplete.setAdapter(adapter)
     }
 }

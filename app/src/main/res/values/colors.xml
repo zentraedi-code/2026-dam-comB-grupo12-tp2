@@ -9,5 +9,7 @@
     <color name="dark_surface">#1E1E1E</color>
     <color name="navy_splash">#034798</color>
     <color name="blue_377">#3771C8</color>
-
+    <color name="light_blue">#0A66C2</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFA629</color>
 </resources>

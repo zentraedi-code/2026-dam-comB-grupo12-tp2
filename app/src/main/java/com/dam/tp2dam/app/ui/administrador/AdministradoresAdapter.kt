@@ -33,7 +33,6 @@ class AdministradoresAdapter(
         holder.tvNombre.text = "#${admin.id}  ${admin.nombre}"
         holder.tvEstado.text = admin.estado
 
-        // Color dinámico según estado
         val color = if (admin.estado == "Activo")
             holder.itemView.context.getColor(R.color.green_700)
         else

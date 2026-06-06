@@ -26,7 +26,6 @@
         android:textColor="@color/navy"
         android:textStyle="bold"/>
 
-    <!--user-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
@@ -39,7 +38,6 @@
             android:hint="Usuario"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--password-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +14,8 @@ import com.dam.tp2dam.databinding.ActivityAdministradorBinding
 data class Administrador(
     val id: Int,
     val nombre: String,
+    val usuario: String,
+    val clave: String,
     val estado: String,
     val fechaAlta: String
 )
@@ -24,27 +25,20 @@ class AdministradorActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdministradorBinding
     private lateinit var adapter: AdministradoresAdapter
 
-    private val listaCompleta = mutableListOf(
-        Administrador(1, "Admin", "Activo", "01/04/2026")
+    private val listaCompleta = mutableListOf<Administrador>(
+        Administrador(1, "Admin", "Admin","123456", "Activo", obbtenerFechaActual())
     )
-    private var listaFiltrada = listaCompleta.toMutableList()
+    private var listaFiltrada = listaCompleta.toMutableList<Administrador>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdministradorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        configurarToolbar()
         configurarRecyclerView()
         configurarBuscador()
-        configurarFab()
+        configurarAgregar()
         actualizarTotal()
-    }
-
-    private fun configurarToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun configurarRecyclerView() {
@@ -75,8 +69,8 @@ class AdministradorActivity : AppCompatActivity() {
         actualizarTotal()
     }
 
-    private fun configurarFab() {
-        binding.fabAgregar.setOnClickListener { mostrarDialogoAgregar() }
+    private fun configurarAgregar() {
+        binding.btnAgregar.setOnClickListener { mostrarDialogoAgregar() }
     }
 
     private fun actualizarTotal() {
@@ -84,43 +78,134 @@ class AdministradorActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoAgregar() {
-        val etNombre = EditText(this).apply { hint = "Nombre del administrador" }
-        AlertDialog.Builder(this)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_form_administrador, null)
+        
+        val tilNombre = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilNombre)
+        val tilUsuario = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilUsuario)
+        val tilClave = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilClave)
+        
+        val etNombre = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etNombre)
+        val etUsuario = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etUsuario)
+        val etClave = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etClave)
+
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Nuevo Administrador")
-            .setView(etNombre)
-            .setPositiveButton("Guardar") { _, _ ->
+            .setView(dialogView)
+            .setPositiveButton("Guardar", null)
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val nombre = etNombre.text.toString().trim()
-                if (nombre.isNotEmpty()) {
+                val usuario = etUsuario.text.toString().trim()
+                val clave = etClave.text.toString().trim()
+                
+                var isValid = true
+                
+                if (nombre.isEmpty()) {
+                    tilNombre.error = "El nombre es obligatorio"
+                    isValid = false
+                } else {
+                    tilNombre.error = null
+                }
+                
+                if (usuario.isEmpty()) {
+                    tilUsuario.error = "El usuario es obligatorio"
+                    isValid = false
+                } else {
+                    tilUsuario.error = null
+                }
+                
+                if (clave.isEmpty()) {
+                    tilClave.error = "La clave es obligatoria"
+                    isValid = false
+                } else {
+                    tilClave.error = null
+                }
+                
+                if (isValid) {
                     val nuevoId = (listaCompleta.maxOfOrNull { it.id } ?: 0) + 1
-                    listaCompleta.add(Administrador(nuevoId, nombre, "Activo", obtenerFechaHoy()))
+                    listaCompleta.add(Administrador(nuevoId, nombre, usuario, clave, "Activo", obbtenerFechaActual()))
                     filtrarLista(binding.etBuscar.text.toString())
                     Toast.makeText(this, "Administrador creado", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
                 }
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        }
+        
+        dialog.show()
     }
 
     private fun mostrarDialogoEditar(admin: Administrador) {
-        val etNombre = EditText(this).apply { setText(admin.nombre) }
-        AlertDialog.Builder(this)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_form_administrador, null)
+
+        val tilNombre = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilNombre)
+        val tilUsuario = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilUsuario)
+        val tilClave = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilClave)
+
+        val etNombre = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etNombre)
+        val etUsuario = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etUsuario)
+        val etClave = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etClave)
+
+        // Pre-llenar los campos con los datos existentes
+        etNombre.setText(admin.nombre)
+        etUsuario.setText(admin.usuario)
+        etClave.setText(admin.clave)
+
+        val dialog = AlertDialog.Builder(this)
             .setTitle("Editar Administrador")
-            .setView(etNombre)
-            .setPositiveButton("Guardar") { _, _ ->
-                val nombreNuevo = etNombre.text.toString().trim()
-                if (nombreNuevo.isNotEmpty()) {
+            .setView(dialogView)
+            .setPositiveButton("Guardar", null)
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val nombre = etNombre.text.toString().trim()
+                val usuario = etUsuario.text.toString().trim()
+                val clave = etClave.text.toString().trim()
+
+                var isValid = true
+
+                if (nombre.isEmpty()) {
+                    tilNombre.error = "El nombre es obligatorio"
+                    isValid = false
+                } else {
+                    tilNombre.error = null
+                }
+
+                if (usuario.isEmpty()) {
+                    tilUsuario.error = "El usuario es obligatorio"
+                    isValid = false
+                } else {
+                    tilUsuario.error = null
+                }
+
+                if (clave.isEmpty()) {
+                    tilClave.error = "La clave es obligatoria"
+                    isValid = false
+                } else {
+                    tilClave.error = null
+                }
+
+                if (isValid) {
                     val index = listaCompleta.indexOfFirst { it.id == admin.id }
                     if (index != -1) {
-                        listaCompleta[index] = admin.copy(nombre = nombreNuevo)
+                        listaCompleta[index] = admin.copy(
+                            nombre = nombre,
+                            usuario = usuario,
+                            clave = clave
+                        )
                         filtrarLista(binding.etBuscar.text.toString())
                         Toast.makeText(this, "Administrador actualizado", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
                     }
                 }
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        }
+
+        dialog.show()
     }
 
     private fun mostrarDialogoEliminar(admin: Administrador) {
@@ -136,8 +221,12 @@ class AdministradorActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun obtenerFechaHoy(): String {
-        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
-        return sdf.format(java.util.Date())
+    private fun obbtenerFechaActual(): String {
+        val fechaActual = java.util.Calendar.getInstance()
+        val dia = fechaActual.get(java.util.Calendar.DAY_OF_MONTH)
+        val mes = fechaActual.get(java.util.Calendar.MONTH) + 1
+        val anio = fechaActual.get(java.util.Calendar.YEAR)
+        return "$dia/$mes/$anio"
     }
+
 }

@@ -2,16 +2,11 @@ package com.dam.tp2dam.app.ui.panel.control
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.dam.tp2dam.app.ui.cuotas.CuotasActivity
 import com.dam.tp2dam.R
-import com.dam.tp2dam.app.ui.administrador.AdministradorActivity
-import com.dam.tp2dam.app.ui.carnets.CarnetsActivity
 import com.dam.tp2dam.app.ui.reportes.ReportesActivity
+import com.dam.tp2dam.app.ui.clientes.ClienteActivity
 
 class PanelControlActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,17 +21,9 @@ class PanelControlActivity : AppCompatActivity() {
                 finish();
             }
 
-        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnAdministrador).setOnClickListener {
+        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnClientes).setOnClickListener {
             // Toast.makeText(this, "En construcción", Toast.LENGTH_SHORT).show();
-            startActivity(Intent(this, AdministradorActivity::class.java));
-        }
-
-        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCarnet).setOnClickListener {
-            startActivity(Intent(this, CarnetsActivity::class.java));
-        }
-
-        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCuotas).setOnClickListener {
-            startActivity(Intent(this, CuotasActivity::class.java));
+            startActivity(Intent(this, ClienteActivity::class.java));
         }
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btnReportes).setOnClickListener {

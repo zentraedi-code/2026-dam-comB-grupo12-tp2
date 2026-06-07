@@ -50,12 +50,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnAcceder.setOnClickListener {
             startActivity(Intent(this, AdminLoginActivity::class.java))
         }
-        binding.btnRegistrarSocio.setOnClickListener {
-            startActivity(Intent(this, RegisterSocioActivity::class.java))
-        }
-        binding.btnRegistrarNoSocio.setOnClickListener {
-            startActivity(Intent(this, RegisterNoSocioActivity::class.java))
-        }
         binding.btnInstagram.setOnClickListener { openUrl("https://www.instagram.com") }
         binding.btnLinkedin.setOnClickListener  { openUrl("https://www.linkedin.com") }
         binding.btnYoutube.setOnClickListener   { openUrl("https://www.youtube.com") }

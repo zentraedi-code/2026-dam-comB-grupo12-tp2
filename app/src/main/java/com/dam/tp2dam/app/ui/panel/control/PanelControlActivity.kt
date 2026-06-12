@@ -2,9 +2,12 @@ package com.dam.tp2dam.app.ui.panel.control
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.dam.tp2dam.MainActivity
 import com.dam.tp2dam.R
 import com.dam.tp2dam.app.dao.ClienteDao
 import com.dam.tp2dam.app.dao.FacturaDao
@@ -30,6 +33,7 @@ class PanelControlActivity : AppCompatActivity() {
         facturaDao = sqliteHelper.getFacturaDao()
 
         setupClickListeners()
+        cerrarSesion()
 
         txtCantidadSocios = findViewById(R.id.txtCantidadSocios)
         txtCantidadDeuda = findViewById(R.id.txtCantidadDeuda)
@@ -55,5 +59,27 @@ class PanelControlActivity : AppCompatActivity() {
         txtCantidadSocios.text = totalSocios.toString()
         txtCantidadDeuda.text = sociosConDeuda.toString()
         txtCantidadAlDia.text = sociosAlDia.toString()
+    }
+
+    private fun cerrarSesion(){
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+
+        btnBack.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Querés cerrar sesión?")
+                .setPositiveButton("Sí") { _, _ ->
+
+                    val intent = Intent(this, MainActivity::class.java)
+
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                    startActivity(intent)
+                }
+                .setNegativeButton("No", null)
+                .show()
+        }
     }
 }

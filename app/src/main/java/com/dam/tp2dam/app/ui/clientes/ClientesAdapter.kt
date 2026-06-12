@@ -1,14 +1,18 @@
 package com.dam.tp2dam.app.ui.clientes
 
 import Cliente
+import android.app.Dialog
+import android.content.ContentValues
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-
 import androidx.recyclerview.widget.RecyclerView
 import com.dam.tp2dam.R
 import com.dam.tp2dam.app.dao.SQLiteHelper
@@ -47,24 +51,21 @@ class ClientesAdapter(
         holder.tvFechaAlta.text = formatearFecha(cliente.fechaAlta)
 
         holder.btnEliminar.setOnClickListener {
-                AlertDialog.Builder(holder.itemView.context)
-                    .setTitle("Eliminar Cliente")
-                    .setMessage("¿Eliminar ${cliente.nombre}?")
-                    .setPositiveButton("Eliminar") { _, _ ->
-
-                        val clienteDao = helper.getClienteDao()
-
-                        clienteDao.eliminar(cliente.dni)
-                        cargarClientes()
-
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "Cliente eliminado",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
+            AlertDialog.Builder(holder.itemView.context)
+                .setTitle("Eliminar Cliente")
+                .setMessage("¿Eliminar ${cliente.nombre}?")
+                .setPositiveButton("Eliminar") { _, _ ->
+                    val clienteDao = helper.getClienteDao()
+                    clienteDao.eliminar(cliente.dni)
+                    cargarClientes()
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Cliente eliminado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
         }
 
         holder.btnCarnet.setOnClickListener {
@@ -76,29 +77,114 @@ class ClientesAdapter(
         }
 
         holder.btnCobrar.setOnClickListener {
-            Toast.makeText(
-                // TODO MODIFICAR JAVIER
-                holder.itemView.context,
-                "TODO pagar para ${cliente.nombre} (DNI: ${cliente.dni})",
-                Toast.LENGTH_SHORT
-            ).show()
+            mostrarDialogoPago(holder.itemView.context, cliente)
         }
 
         holder.btnEditar.setOnClickListener {
-            // TODO MODIFICAR JUAN PABLO
             Toast.makeText(
                 holder.itemView.context,
                 "TODO MODIFICAR ${cliente.nombre} (DNI: ${cliente.dni})",
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
 
+    private fun mostrarDialogoPago(context: Context, cliente: Cliente) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_pago)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val tvTitulo = dialog.findViewById<TextView>(R.id.tvTituloPago)
+        val tvCliente = dialog.findViewById<TextView>(R.id.tvClientePago)
+        val etMonto = dialog.findViewById<EditText>(R.id.etMonto)
+        val etConcepto = dialog.findViewById<EditText>(R.id.etConcepto)
+        val btnConfirmar = dialog.findViewById<Button>(R.id.btnConfirmarPago)
+        val btnCancelar = dialog.findViewById<Button>(R.id.btnCancelarPago)
+
+        tvTitulo.text = "Registrar Pago"
+        tvCliente.text = "Cliente: ${cliente.nombre} ${cliente.apellido} (DNI: ${cliente.dni})"
+
+        btnConfirmar.setOnClickListener {
+            val monto = etMonto.text.toString().trim()
+            val concepto = etConcepto.text.toString().trim()
+
+            if (monto.isEmpty()) {
+                etMonto.error = "Ingrese el monto"
+                return@setOnClickListener
+            }
+
+            val montoDouble = monto.toDoubleOrNull()
+            if (montoDouble == null || montoDouble <= 0) {
+                etMonto.error = "Ingrese un monto válido"
+                return@setOnClickListener
+            }
+
+            if (concepto.isEmpty()) {
+                etConcepto.error = "Ingrese el concepto"
+                return@setOnClickListener
+            }
+
+            registrarPago(context, cliente, montoDouble, concepto)
+            dialog.dismiss()
+        }
+
+        btnCancelar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun registrarPago(context: Context, cliente: Cliente, monto: Double, concepto: String) {
+        try {
+            val db = helper.writableDatabase
+
+            val cursor = db.rawQuery(
+                "SELECT id FROM cliente WHERE dni = ?",
+                arrayOf(cliente.dni)
+            )
+
+            if (!cursor.moveToFirst()) {
+                Toast.makeText(context, "Cliente no encontrado", Toast.LENGTH_SHORT).show()
+                cursor.close()
+                return
+            }
+
+            val clienteId = cursor.getInt(0)
+            cursor.close()
+
+            val fechaActual = System.currentTimeMillis()
+
+            val valores = ContentValues().apply {
+                put("usuarioId", clienteId)
+                put("fecha_vencimiento", fechaActual)
+                put("fecha_pago", fechaActual)
+                put("importe", monto)
+            }
+
+            db.insert("factura", null, valores)
+
+            Toast.makeText(
+                context,
+                "Pago de \$${"%.2f".format(monto)} registrado para ${cliente.nombre}",
+                Toast.LENGTH_LONG
+            ).show()
+
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                "Error al registrar el pago: ${e.message}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun cargarClientes() {
         val clienteDao = helper.getClienteDao()
         val clientesDB = clienteDao.obtenerHabilitados()
-
         lista.clear()
         lista.addAll(clientesDB)
         notifyDataSetChanged()
@@ -112,7 +198,4 @@ class ClientesAdapter(
             fecha
         }
     }
-
-
-
 }

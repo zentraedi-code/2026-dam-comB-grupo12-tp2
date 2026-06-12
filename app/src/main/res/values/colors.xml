@@ -12,4 +12,8 @@
     <color name="light_blue">#0A66C2</color>
     <color name="red">#FF0000</color>
     <color name="yellow">#FFA629</color>
+    <color name="strongBlue">#034798</color>
+    <color name="lightBlue">#1565C0</color>
+    <color name="gray">#546E7A</color>
+    <color name="lightPink">#FCE4E4</color>
 </resources>

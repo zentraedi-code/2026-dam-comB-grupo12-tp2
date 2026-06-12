@@ -1,11 +1,11 @@
 package com.dam.tp2dam.app.ui.clientes
 
 import Cliente
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dam.tp2dam.app.dao.SQLiteHelper
 import com.dam.tp2dam.R
+import com.dam.tp2dam.app.ui.panel.control.PanelControlActivity
 
 class ClienteActivity : AppCompatActivity() {
 
@@ -31,6 +32,13 @@ class ClienteActivity : AppCompatActivity() {
         configurarRecyclerView()
         configurarBuscador()
         configurarAgregar()
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
+        findViewById<android.widget.ImageView>(R.id.btnBack).setOnClickListener {
+            startActivity(Intent(this, PanelControlActivity::class.java));
+        }
     }
 
     private fun configurarRecyclerView() {
@@ -59,7 +67,7 @@ class ClienteActivity : AppCompatActivity() {
     }
 
     private fun configurarAgregar() {
-        val cardClientes = findViewById<LinearLayout>(R.id.cardClientes)
+        val cardClientes = findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardClientes)
 
         cardClientes.setOnClickListener {
             val vista = layoutInflater.inflate(R.layout.dialog_cliente, null)

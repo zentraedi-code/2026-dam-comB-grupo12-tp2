@@ -55,5 +55,30 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return db.update("cliente", valores, "dni = ?", arrayOf(dni))
     }
 
+    fun obtenerCantidadSocios(): Int {
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM cliente WHERE es_socio = 1 AND habilitado = 1", null)
+
+        var cantidad = 0
+
+        if (cursor.moveToFirst()) {
+            cantidad = cursor.getInt(0)
+        }
+
+        cursor.close()
+        return cantidad
+    }
+
+    fun obtenerCantidadNoSocios(): Int {
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM cliente WHERE es_socio = 0 AND habilitado = 1", null)
+
+        var cantidad = 0
+
+        if (cursor.moveToFirst()) {
+            cantidad = cursor.getInt(0)
+        }
+
+        cursor.close()
+        return cantidad
+    }
 }
 

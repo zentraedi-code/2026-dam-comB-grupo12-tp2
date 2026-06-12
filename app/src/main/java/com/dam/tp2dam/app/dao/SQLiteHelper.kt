@@ -84,7 +84,7 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, "club.db", null,
         (usuarioId, fecha_vencimiento, fecha_pago, importe)
         VALUES
         (1, 1700000000000, NULL, 5000),
-        (2, 1700000000000, 1750000000000, 5000),
+        (2, strftime('%s','now') * 1000, NULL, 5000),
         (3, 1700000000000, NULL, 4500),
         (4, 1700000000000, 1750000000000, 5000),
         (5, 1700000000000, NULL, 6000),

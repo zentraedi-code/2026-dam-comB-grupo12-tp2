@@ -10,8 +10,7 @@ import com.dam.tp2dam.databinding.ActivityMainBinding
 import com.dam.tp2dam.app.utils.ThemeManager
 
 import com.dam.tp2dam.app.ui.auth.login.AdminLoginActivity
-import com.dam.tp2dam.app.ui.socio.RegisterSocioActivity
-import com.dam.tp2dam.app.ui.nosocio.RegisterNoSocioActivity
+import com.dam.tp2dam.app.ui.clientes.ClienteActivity   // ← NUEVO IMPORT
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,31 +24,42 @@ class MainActivity : AppCompatActivity() {
 
         actualizarUI()
         setupClickListeners()
-
     }
 
     private fun actualizarUI() {
         val isDark = (resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
         binding.ivLogo.setImageResource(
             if (isDark) R.drawable.natacion_white else R.drawable.natacion
         )
+
         binding.btnToggleTheme.text = if (isDark) "☀" else "🌙"
     }
 
     private fun setupClickListeners() {
+
+        // Cambiar tema
         binding.btnToggleTheme.setOnClickListener {
             ThemeManager.toggleTheme(this)
-            // Leemos el nuevo valor de prefs DESPUÉS del toggle
             val isDark = ThemeManager.isDarkMode(this)
             AppCompatDelegate.setDefaultNightMode(
                 if (isDark) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
         }
+
+        // Acceso admin
         binding.btnAcceder.setOnClickListener {
             startActivity(Intent(this, AdminLoginActivity::class.java))
         }
+
+        // NUEVO: botón para gestionar clientes
+        binding.btnRegistrarCliente.setOnClickListener {
+            startActivity(Intent(this, ClienteActivity::class.java))
+        }
+
+        // Redes sociales
         binding.btnInstagram.setOnClickListener { openUrl("https://www.instagram.com") }
         binding.btnLinkedin.setOnClickListener  { openUrl("https://www.linkedin.com") }
         binding.btnYoutube.setOnClickListener   { openUrl("https://www.youtube.com") }

@@ -1,5 +1,6 @@
 package com.dam.tp2dam.app.ui.clientes
 
+import Cliente
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.dam.tp2dam.R
 import com.dam.tp2dam.app.dao.SQLiteHelper
-import com.dam.tp2dam.app.domain.Cliente
 
 class ClientesAdapter(
     private val lista: MutableList<Cliente>,
@@ -40,6 +40,7 @@ class ClientesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cliente = lista[position]
+        val puedeImprimir = helper.getClienteDao().puedeImprimirCarnet(cliente)
 
         holder.tvDetalleCliente.text =
             "${cliente.dni} - ${cliente.nombre} (${cliente.tipoCliente})"
@@ -58,12 +59,19 @@ class ClientesAdapter(
                 .show()
         }
 
+        holder.btnCarnet.isEnabled = puedeImprimir
+        holder.btnCarnet.alpha = if (puedeImprimir) 1f else 0.4f
         holder.btnCarnet.setOnClickListener {
-            Toast.makeText(
-                holder.itemView.context,
-                "TODO imprimir carnet de ${cliente.nombre}",
-                Toast.LENGTH_SHORT
-            ).show()
+            if (!puedeImprimir) {
+                Toast.makeText(
+                    holder.itemView.context,
+                    "El cliente debe estar habilitado y sin facturas vencidas",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            mostrarCarnet(holder.itemView.context, cliente)
         }
 
         holder.btnCobrar.setOnClickListener {
@@ -170,5 +178,54 @@ class ClientesAdapter(
         lista.clear()
         lista.addAll(clientesDB)
         notifyDataSetChanged()
+    }
+
+    private fun formatearFecha(fecha: String): String {
+        val partes = fecha.split("-")
+        return if (partes.size == 3) {
+            "${partes[2]}/${partes[1]}/${partes[0]}"
+        } else {
+            fecha
+        }
+    }
+
+    private fun mostrarCarnet(context: Context, cliente: Cliente) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_carnet)
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        dialog.findViewById<TextView>(R.id.tvCarnetNombre).text =
+            "${cliente.nombre} ${cliente.apellido}"
+
+        dialog.findViewById<TextView>(R.id.tvCarnetDni).text =
+            "DNI: ${cliente.dni}"
+
+        dialog.findViewById<TextView>(R.id.tvCarnetSocio).text =
+            "N° Socio: ${cliente.dni}"
+
+        dialog.findViewById<TextView>(R.id.tvCarnetFechaAlta).text =
+            "Alta: ${formatearFecha(cliente.fechaAlta)}"
+
+        val btnCerrar = dialog.findViewById<Button>(R.id.btnCerrarCarnet)
+        btnCerrar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val btnImprimir = dialog.findViewById<Button>(R.id.btnImprimirCarnet)
+        btnImprimir.setOnClickListener {
+            AlertDialog.Builder(context)
+                .setTitle("Carnet impreso")
+                .setMessage("El carnet se imprimió correctamente.")
+                .setPositiveButton("Aceptar") { _, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+        dialog.show()
     }
 }

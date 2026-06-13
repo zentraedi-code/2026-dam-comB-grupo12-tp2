@@ -54,11 +54,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AdminLoginActivity::class.java))
         }
 
-        // NUEVO: botón para gestionar clientes
-        binding.btnRegistrarCliente.setOnClickListener {
-            startActivity(Intent(this, ClienteActivity::class.java))
-        }
-
         // Redes sociales
         binding.btnInstagram.setOnClickListener { openUrl("https://www.instagram.com") }
         binding.btnLinkedin.setOnClickListener  { openUrl("https://www.linkedin.com") }

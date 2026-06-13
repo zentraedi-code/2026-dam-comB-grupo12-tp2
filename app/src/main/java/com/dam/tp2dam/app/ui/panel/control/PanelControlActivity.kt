@@ -52,9 +52,9 @@ class PanelControlActivity : AppCompatActivity() {
     }
 
     private fun actualizarResumen() {
-        val totalSocios = clienteDao.obtenerCantidadSocios()
+        val totalSocios = clienteDao.contarSocios()
         val sociosConDeuda = facturaDao.obtenerCantidadSociosVencidos()
-        val sociosAlDia = clienteDao.obtenerCantidadNoSocios()
+        val sociosAlDia = clienteDao.contarNoSocios()
 
         txtCantidadSocios.text = totalSocios.toString()
         txtCantidadDeuda.text = sociosConDeuda.toString()

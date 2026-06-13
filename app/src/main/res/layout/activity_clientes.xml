@@ -77,11 +77,14 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/btnRegistrarCliente"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:padding="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:layout_width="40dp"

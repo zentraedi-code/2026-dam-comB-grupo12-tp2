@@ -1,16 +1,17 @@
 package com.dam.tp2dam.app.ui.clientes
 
+import Cliente
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dam.tp2dam.R
 import com.dam.tp2dam.app.dao.SQLiteHelper
-import com.dam.tp2dam.app.domain.Cliente
 import com.dam.tp2dam.app.ui.panel.control.PanelControlActivity
 import com.google.android.material.card.MaterialCardView
 
@@ -35,6 +36,10 @@ class ClienteActivity : AppCompatActivity() {
     private fun setupClickListeners() {
         findViewById<android.widget.ImageView>(R.id.btnBack).setOnClickListener {
             startActivity(Intent(this, PanelControlActivity::class.java))
+        }
+
+        findViewById<LinearLayout>(R.id.btnRegistrarCliente).setOnClickListener {
+            startActivity(Intent(this, ClienteActivity::class.java))
         }
     }
 

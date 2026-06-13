@@ -12,49 +12,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="16dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/strongBlue">
-
-                <ImageView
-                    android:id="@+id/btnBack"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/abc_ic_ab_back_material"
-                    app:tint="@android:color/white"
-                    android:clickable="true"
-                    android:focusable="true"/>
-
-                <TextView
-                    android:id="@+id/txtTitulo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="REGISTRO CLIENTE"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registro Cliente"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="24dp"/>
 
             <!-- NOMBRE -->
             <com.google.android.material.textfield.TextInputLayout
@@ -204,40 +179,42 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="30dp">
-
-            <View
-                android:layout_width="340dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/strongBlue" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Club Deportivo v1.0.2"
-                android:textColor="@color/strongBlue"
-                android:textSize="12sp"
-                android:textStyle="italic"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Desarrollado por Grupo 12 - DAM 2026"
-                android:textColor="@color/gray"
-                android:textSize="11sp"/>
-        </LinearLayout>
-
-        </LinearLayout>
-
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutFooter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="340dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/strongBlue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Club Deportivo v1.0.2"
+            android:textColor="@color/strongBlue"
+            android:textSize="12sp"
+            android:textStyle="italic"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Desarrollado por Grupo 12 - DAM 2026"
+            android:textColor="@color/gray"
+            android:textSize="11sp"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

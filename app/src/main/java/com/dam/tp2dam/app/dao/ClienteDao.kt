@@ -84,49 +84,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return lista
     }
 
-    // OBTENER SOLO SOCIOS
-    fun obtenerSocios(): List<Cliente> {
-        return obtenerPorTipo("SOCIO")
-    }
-
-    // OBTENER SOLO NO SOCIOS
-    fun obtenerNoSocios(): List<Cliente> {
-        return obtenerPorTipo("NO_SOCIO")
-    }
-
-    private fun obtenerPorTipo(tipo: String): List<Cliente> {
-        val lista = mutableListOf<Cliente>()
-        val cursor = db.rawQuery(
-            "SELECT * FROM cliente WHERE tipo_cliente = ?",
-            arrayOf(tipo)
-        )
-
-        if (cursor.moveToFirst()) {
-            do {
-                val cliente = Cliente(
-                    dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")),
-                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
-                    apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")),
-                    telefono = cursor.getString(cursor.getColumnIndexOrThrow("telefono")),
-                    habilitado = cursor.getInt(cursor.getColumnIndexOrThrow("habilitado")) == 1,
-                    esSocio = cursor.getInt(cursor.getColumnIndexOrThrow("es_socio")) == 1,
-                    fechaAlta = cursor.getString(cursor.getColumnIndexOrThrow("fecha_alta")),
-                    email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
-                    tipoCliente = cursor.getString(cursor.getColumnIndexOrThrow("tipo_cliente")),
-                    aptoFisico = when (cursor.getInt(cursor.getColumnIndexOrThrow("apto_fisico"))) {
-                        1 -> true
-                        0 -> false
-                        else -> null
-                    }
-                )
-                lista.add(cliente)
-            } while (cursor.moveToNext())
-        }
-
-        cursor.close()
-        return lista
-    }
-
     // BUSCAR POR DNI
     fun buscarPorDni(dni: String): Cliente? {
         val cursor = db.rawQuery(
@@ -157,11 +114,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
 
         cursor.close()
         return null
-    }
-
-    // ELIMINAR CLIENTE POR DNI
-    fun eliminar(dni: String): Int {
-        return db.delete("cliente", "dni = ?", arrayOf(dni))
     }
 
     // CONTAR SOCIOS

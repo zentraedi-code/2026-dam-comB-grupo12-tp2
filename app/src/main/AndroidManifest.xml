@@ -43,12 +43,6 @@
             android:exported="false" /> <!-- Acceso Administrador -->
         <activity
             android:name=".app.ui.auth.login.AdminLoginActivity"
-            android:exported="false" /> <!-- Registro Socio -->
-        <activity
-            android:name=".app.ui.socio.RegisterSocioActivity"
-            android:exported="false" /> <!-- Registro No Socio -->
-        <activity
-            android:name=".app.ui.nosocio.RegisterNoSocioActivity"
             android:exported="false" />
     </application>
 

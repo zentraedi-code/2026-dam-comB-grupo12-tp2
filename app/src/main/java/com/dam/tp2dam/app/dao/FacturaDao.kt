@@ -8,7 +8,6 @@ import java.util.Date
 
 class FacturaDao(private val db: SQLiteDatabase) {
 
-    // INSERTAR FACTURA
     fun insertar(factura: Factura): Long {
         val valores = ContentValues().apply {
             put("usuarioId", factura.usuarioId)
@@ -19,7 +18,6 @@ class FacturaDao(private val db: SQLiteDatabase) {
         return db.insert("factura", null, valores)
     }
 
-    // LISTA DE SOCIOS CON FACTURA VENCIDA
     fun obtenerSociosVencidos(): List<SocioVencido> {
         val lista = mutableListOf<SocioVencido>()
 
@@ -54,7 +52,6 @@ class FacturaDao(private val db: SQLiteDatabase) {
         return lista
     }
 
-    // CANTIDAD DE SOCIOS CON FACTURA VENCIDA
     fun obtenerCantidadSociosVencidos(): Int {
         val cursor = db.rawQuery(
             """

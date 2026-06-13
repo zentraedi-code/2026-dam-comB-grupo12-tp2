@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// Clave para pasar el DNI del cliente a editar entre pantallas (Intent)
 const val CLAVE_DNI = "dni"
 
 class RegistroClienteActivity : AppCompatActivity() {
@@ -27,7 +26,6 @@ class RegistroClienteActivity : AppCompatActivity() {
     private lateinit var btnCancelar: Button
     private lateinit var helper: SQLiteHelper
 
-    // Cliente que se está editando (null = alta de cliente nuevo)
     private var clienteEdicion: Cliente? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,11 +51,10 @@ class RegistroClienteActivity : AppCompatActivity() {
         etNombre.setText(cliente.nombre)
         etApellido.setText(cliente.apellido)
         etDni.setText(cliente.dni)
-        etDni.isEnabled = false // El DNI identifica al cliente: no se edita
+        etDni.isEnabled = false
         etTelefono.setText(cliente.telefono)
         etEmail.setText(cliente.email)
 
-        // Al cambiar el switch se dispara el listener que habilita el apto físico
         switchTipoCliente.isChecked = cliente.esSocio
         switchAptoFisico.isChecked = cliente.aptoFisico == true
     }
@@ -75,7 +72,6 @@ class RegistroClienteActivity : AppCompatActivity() {
     }
 
     private fun configurarSwitches() {
-        // Estado inicial: NO_SOCIO
         switchTipoCliente.isChecked = false
         switchAptoFisico.isEnabled = false
         switchAptoFisico.isChecked = false
@@ -83,11 +79,9 @@ class RegistroClienteActivity : AppCompatActivity() {
 
         switchTipoCliente.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                // SOCIO
                 switchAptoFisico.isEnabled = true
                 switchAptoFisico.alpha = 1f
             } else {
-                // NO SOCIO
                 switchAptoFisico.isChecked = false
                 switchAptoFisico.isEnabled = false
                 switchAptoFisico.alpha = 0.4f
@@ -112,7 +106,6 @@ class RegistroClienteActivity : AppCompatActivity() {
             val clienteDao = helper.getClienteDao()
             val editando = clienteEdicion != null
 
-            // En alta: evitar DNI duplicado (en edición el DNI no cambia)
             if (!editando && clienteDao.buscarPorDni(dni) != null) {
                 Toast.makeText(this, "Ya existe un cliente con ese DNI", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -120,9 +113,7 @@ class RegistroClienteActivity : AppCompatActivity() {
 
             val esSocio = switchTipoCliente.isChecked
             val tipoCliente = if (esSocio) "SOCIO" else "NO_SOCIO"
-            // El apto físico solo aplica a socios; para no socios queda null
             val aptoFisico: Boolean? = if (esSocio) switchAptoFisico.isChecked else null
-            // En edición se conservan la fecha de alta y el estado de habilitado originales
             val fechaAlta = clienteEdicion?.fechaAlta
                 ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
             val habilitado = clienteEdicion?.habilitado ?: true

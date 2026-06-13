@@ -37,10 +37,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Pantalla principal -->
+        </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false" /> <!-- Acceso Administrador -->
+            android:exported="false" />
         <activity
             android:name=".app.ui.auth.login.AdminLoginActivity"
             android:exported="false" />

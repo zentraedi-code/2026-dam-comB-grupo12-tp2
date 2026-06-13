@@ -7,6 +7,6 @@ data class Cliente(
     val habilitado: Boolean,
     val esSocio: Boolean,
     val fechaAlta: String,
-    val tipoCliente: String,   // "SOCIO" o "NO_SOCIO"
+    val tipoCliente: String,
     val aptoFisico: Boolean?
 )

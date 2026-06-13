@@ -34,7 +34,6 @@ class ClienteActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Refresca la lista al volver desde el registro de cliente
         adapter.cargarClientes()
     }
 
@@ -70,7 +69,6 @@ class ClienteActivity : AppCompatActivity() {
         val cardClientes = findViewById<MaterialCardView>(R.id.cardClientes)
 
         cardClientes.setOnClickListener {
-            // AHORA abre la nueva pantalla unificada
             startActivity(Intent(this, RegistroClienteActivity::class.java))
         }
     }

@@ -60,7 +60,6 @@ class ClientesAdapter(
                 .show()
         }
 
-        // El carnet solo aplica a socios: se oculta para no socios
         holder.btnCarnet.visibility = if (cliente.esSocio) View.VISIBLE else View.GONE
         holder.btnCarnet.isEnabled = puedeImprimir
         holder.btnCarnet.alpha = if (puedeImprimir) 1f else 0.4f

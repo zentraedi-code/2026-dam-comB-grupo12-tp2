@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase
 
 class ClienteDao(private val db: SQLiteDatabase) {
 
-    // INSERTAR CLIENTE
     fun insertar(cliente: Cliente): Long {
         val values = ContentValues().apply {
             put("dni", cliente.dni)
@@ -30,7 +29,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return db.insert("cliente", null, values)
     }
 
-    // ACTUALIZAR CLIENTE (identificado por DNI)
     fun actualizar(cliente: Cliente): Int {
         val values = ContentValues().apply {
             put("nombre", cliente.nombre)
@@ -53,7 +51,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return db.update("cliente", values, "dni = ?", arrayOf(cliente.dni))
     }
 
-    // OBTENER TODOS LOS CLIENTES
     fun obtenerTodos(): List<Cliente> {
         val lista = mutableListOf<Cliente>()
         val cursor = db.rawQuery("SELECT * FROM cliente", null)
@@ -84,7 +81,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return lista
     }
 
-    // BUSCAR POR DNI
     fun buscarPorDni(dni: String): Cliente? {
         val cursor = db.rawQuery(
             "SELECT * FROM cliente WHERE dni = ?",
@@ -116,7 +112,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return null
     }
 
-    // CONTAR SOCIOS
     fun contarSocios(): Int {
         val cursor = db.rawQuery(
             "SELECT COUNT(*) FROM cliente WHERE tipo_cliente = 'SOCIO' AND habilitado = 1 ",
@@ -128,7 +123,6 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return cantidad
     }
 
-    // CONTAR NO SOCIOS
     fun contarNoSocios(): Int {
         val cursor = db.rawQuery(
             "SELECT COUNT(*) FROM cliente WHERE tipo_cliente = 'NO_SOCIO'  AND habilitado = 1 ",

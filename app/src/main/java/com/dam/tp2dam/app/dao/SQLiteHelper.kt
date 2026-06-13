@@ -6,13 +6,10 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class SQLiteHelper(context: Context) :
-    SQLiteOpenHelper(context, "club.db", null, 3) {   // ← Subimos a versión 3 para forzar cambio
+    SQLiteOpenHelper(context, "club.db", null, 3) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        // ============================
-        //   TABLA CLIENTE
-        // ============================
         db.execSQL(
             """
             CREATE TABLE cliente(
@@ -22,18 +19,15 @@ class SQLiteHelper(context: Context) :
                 apellido TEXT NOT NULL,
                 telefono TEXT NOT NULL,
                 email TEXT NOT NULL,
-                habilitado INTEGER NOT NULL DEFAULT 1, -- 1 = Sí, 0 = No
+                habilitado INTEGER NOT NULL DEFAULT 1,
                 es_socio INTEGER NOT NULL DEFAULT 0,
                 fecha_alta TEXT,
-                tipo_cliente TEXT NOT NULL,   -- SOCIO / NO_SOCIO
-                apto_fisico INTEGER           -- 1 = sí, 0 = no
+                tipo_cliente TEXT NOT NULL,
+                apto_fisico INTEGER
             )
             """
         )
 
-        // ============================
-        //   TABLA USUARIO (LOGIN)
-        // ============================
         db.execSQL(
             """
             CREATE TABLE usuario(
@@ -44,16 +38,12 @@ class SQLiteHelper(context: Context) :
             """
         )
 
-        // Usuario admin por defecto
         val valores = ContentValues().apply {
             put("usuario", "admin")
             put("clave", "123456")
         }
         db.insert("usuario", null, valores)
 
-        // ============================
-        //   TABLA FACTURA
-        // ============================
         db.execSQL(
             """
             CREATE TABLE factura(
@@ -67,9 +57,6 @@ class SQLiteHelper(context: Context) :
             """
         )
 
-        // =========================================================================
-        //   CLIENTES DE PRUEBA (Campos actualizados para evitar errores de columnas)
-        // =========================================================================
         db.execSQL(
             """
             INSERT INTO cliente
@@ -88,7 +75,6 @@ class SQLiteHelper(context: Context) :
             """
         )
 
-        //   FACTURAS DE PRUEBA
         db.execSQL(
             """
             INSERT INTO factura
@@ -106,7 +92,7 @@ class SQLiteHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS factura") // Se borra primero por la clave foránea
+        db.execSQL("DROP TABLE IF EXISTS factura")
         db.execSQL("DROP TABLE IF EXISTS cliente")
         db.execSQL("DROP TABLE IF EXISTS usuario")
         onCreate(db)

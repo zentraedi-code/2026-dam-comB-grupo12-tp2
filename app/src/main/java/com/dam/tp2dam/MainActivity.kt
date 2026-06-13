@@ -10,7 +10,7 @@ import com.dam.tp2dam.databinding.ActivityMainBinding
 import com.dam.tp2dam.app.utils.ThemeManager
 
 import com.dam.tp2dam.app.ui.auth.login.AdminLoginActivity
-import com.dam.tp2dam.app.ui.clientes.ClienteActivity   // ← NUEVO IMPORT
+import com.dam.tp2dam.app.ui.clientes.ClienteActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
 
-        // Cambiar tema
         binding.btnToggleTheme.setOnClickListener {
             ThemeManager.toggleTheme(this)
             val isDark = ThemeManager.isDarkMode(this)
@@ -49,12 +48,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        // Acceso admin
         binding.btnAcceder.setOnClickListener {
             startActivity(Intent(this, AdminLoginActivity::class.java))
         }
 
-        // Redes sociales
         binding.btnInstagram.setOnClickListener { openUrl("https://www.instagram.com") }
         binding.btnLinkedin.setOnClickListener  { openUrl("https://www.linkedin.com") }
         binding.btnYoutube.setOnClickListener   { openUrl("https://www.youtube.com") }

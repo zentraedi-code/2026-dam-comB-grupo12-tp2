@@ -20,7 +20,8 @@ class FacturaDao (private val db: SQLiteDatabase){
         val sociosVencidos = mutableListOf<SocioVencido>()
         val cursor = db.rawQuery(
             "SELECT c.dni, c.nombre, c.apellido, c.telefono, f.importe, f.fecha_vencimiento " +
-                    "FROM cliente c INNER JOIN factura f ON c.id = f.usuarioId WHERE f.fecha_vencimiento < ? AND f.fecha_pago IS NULL",
+                    "FROM cliente c INNER JOIN factura f ON c.id = f.usuarioId " +
+                    "WHERE f.fecha_vencimiento < ? AND f.fecha_pago IS NULL AND c.habilitado = 1",
             arrayOf(System.currentTimeMillis().toString())
         )
 
@@ -43,7 +44,8 @@ class FacturaDao (private val db: SQLiteDatabase){
 
     fun obtenerCantidadSociosVencidos(): Int {
         val cursor = db.rawQuery(
-            "SELECT COUNT(DISTINCT usuarioId) FROM factura WHERE fecha_vencimiento < ? AND fecha_pago IS NULL",
+            "SELECT COUNT(DISTINCT f.usuarioId) FROM factura f INNER JOIN cliente c ON c.id = f.usuarioId " +
+                    "WHERE f.fecha_vencimiento < ? AND f.fecha_pago IS NULL AND c.habilitado = 1",
             arrayOf(System.currentTimeMillis().toString())
         )
 

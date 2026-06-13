@@ -47,7 +47,7 @@ class RegistroClienteActivity : AppCompatActivity() {
         val cliente = helper.getClienteDao().buscarPorDni(dni) ?: return
         clienteEdicion = cliente
 
-        findViewById<TextView>(R.id.txtTitulo)?.text = "Editar Cliente"
+        findViewById<TextView>(R.id.txtTitulo)?.text = "EDITAR CLIENTE"
         btnGuardar.text = "Actualizar"
 
         etNombre.setText(cliente.nombre)

@@ -20,6 +20,9 @@
             android:name=".app.ui.clientes.ClienteActivity"
             android:exported="false" />
         <activity
+            android:name=".app.ui.clientes.RegistroClienteActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.ui.cuotas.CuotasActivity"
             android:exported="false" />
         <activity

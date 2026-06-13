@@ -30,6 +30,29 @@ class ClienteDao(private val db: SQLiteDatabase) {
         return db.insert("cliente", null, values)
     }
 
+    // ACTUALIZAR CLIENTE (identificado por DNI)
+    fun actualizar(cliente: Cliente): Int {
+        val values = ContentValues().apply {
+            put("nombre", cliente.nombre)
+            put("apellido", cliente.apellido)
+            put("telefono", cliente.telefono)
+            put("email", cliente.email)
+            put("habilitado", if (cliente.habilitado) 1 else 0)
+            put("es_socio", if (cliente.esSocio) 1 else 0)
+            put("fecha_alta", cliente.fechaAlta)
+            put("tipo_cliente", cliente.tipoCliente)
+            put(
+                "apto_fisico",
+                when (cliente.aptoFisico) {
+                    true -> 1
+                    false -> 0
+                    null -> null
+                }
+            )
+        }
+        return db.update("cliente", values, "dni = ?", arrayOf(cliente.dni))
+    }
+
     // OBTENER TODOS LOS CLIENTES
     fun obtenerTodos(): List<Cliente> {
         val lista = mutableListOf<Cliente>()

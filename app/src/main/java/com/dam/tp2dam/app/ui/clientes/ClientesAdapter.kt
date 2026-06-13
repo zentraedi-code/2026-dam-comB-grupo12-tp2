@@ -4,6 +4,7 @@ import Cliente
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,8 @@ class ClientesAdapter(
                 .show()
         }
 
+        // El carnet solo aplica a socios: se oculta para no socios
+        holder.btnCarnet.visibility = if (cliente.esSocio) View.VISIBLE else View.GONE
         holder.btnCarnet.isEnabled = puedeImprimir
         holder.btnCarnet.alpha = if (puedeImprimir) 1f else 0.4f
         holder.btnCarnet.setOnClickListener {
@@ -79,11 +82,10 @@ class ClientesAdapter(
         }
 
         holder.btnEditar.setOnClickListener {
-            Toast.makeText(
-                holder.itemView.context,
-                "TODO editar cliente ${cliente.nombre}",
-                Toast.LENGTH_SHORT
-            ).show()
+            val context = holder.itemView.context
+            val intent = Intent(context, RegistroClienteActivity::class.java)
+            intent.putExtra(CLAVE_DNI, cliente.dni)
+            context.startActivity(intent)
         }
     }
 

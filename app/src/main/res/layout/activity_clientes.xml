@@ -82,9 +82,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="5dp"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="5dp">
 
                         <ImageView
                             android:layout_width="40dp"

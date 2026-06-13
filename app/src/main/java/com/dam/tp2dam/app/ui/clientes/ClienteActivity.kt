@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,13 +32,15 @@ class ClienteActivity : AppCompatActivity() {
         setupClickListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Refresca la lista al volver desde el registro de cliente
+        adapter.cargarClientes()
+    }
+
     private fun setupClickListeners() {
         findViewById<android.widget.ImageView>(R.id.btnBack).setOnClickListener {
             startActivity(Intent(this, PanelControlActivity::class.java))
-        }
-
-        findViewById<LinearLayout>(R.id.btnRegistrarCliente).setOnClickListener {
-            startActivity(Intent(this, ClienteActivity::class.java))
         }
     }
 

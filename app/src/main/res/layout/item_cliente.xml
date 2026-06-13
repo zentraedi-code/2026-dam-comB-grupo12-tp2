@@ -66,6 +66,7 @@
             android:id="@+id/btnCarnet"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:tint="#000000"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Imprimir carnet"
             android:src="@android:drawable/ic_menu_agenda"

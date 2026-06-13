@@ -28,6 +28,7 @@
                 android:id="@+id/txtNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Pedro Gimenez"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -51,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:text="365478921"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -73,6 +75,7 @@
                     android:id="@+id/txtTelefono"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="1123456899"
                     android:textColor="@color/black"
                     android:textSize="13sp" />
 
@@ -96,6 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:text="14/26/2029z"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -138,6 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/red"
+                android:text="58000.00"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

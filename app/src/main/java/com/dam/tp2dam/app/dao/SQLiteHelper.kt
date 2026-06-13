@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class SQLiteHelper(context: Context) :
-    SQLiteOpenHelper(context, "club.db", null, 2) {   // ← versión 2
+    SQLiteOpenHelper(context, "club.db", null, 3) {   // ← Subimos a versión 3 para forzar cambio
 
     override fun onCreate(db: SQLiteDatabase) {
 
         // ============================
-        //   TABLA CLIENTE (NUEVA)
+        //   TABLA CLIENTE
         // ============================
         db.execSQL(
             """
@@ -22,8 +22,11 @@ class SQLiteHelper(context: Context) :
                 apellido TEXT NOT NULL,
                 telefono TEXT NOT NULL,
                 email TEXT NOT NULL,
+                habilitado INTEGER NOT NULL DEFAULT 1, -- 1 = Sí, 0 = No
+                es_socio INTEGER NOT NULL DEFAULT 0,
+                fecha_alta TEXT,
                 tipo_cliente TEXT NOT NULL,   -- SOCIO / NO_SOCIO
-                apto_fisico INTEGER           -- 1 = sí, 0 = no (solo si es SOCIO)
+                apto_fisico INTEGER           -- 1 = sí, 0 = no
             )
             """
         )
@@ -48,9 +51,9 @@ class SQLiteHelper(context: Context) :
         }
         db.insert("usuario", null, valores)
 
-
+        // ============================
         //   TABLA FACTURA
-
+        // ============================
         db.execSQL(
             """
             CREATE TABLE factura(
@@ -64,28 +67,28 @@ class SQLiteHelper(context: Context) :
             """
         )
 
-        //   CLIENTES DE PRUEBA
-
+        // =========================================================================
+        //   CLIENTES DE PRUEBA (Campos actualizados para evitar errores de columnas)
+        // =========================================================================
         db.execSQL(
             """
             INSERT INTO cliente
-            (dni, nombre, apellido, telefono, email, tipo_cliente, apto_fisico)
+            (dni, nombre, apellido, telefono, email, habilitado, es_socio, fecha_alta, tipo_cliente, apto_fisico)
             VALUES
-            ('25632187', 'Juan', 'Perez', '111111111', 'juan@mail.com', 'SOCIO', 1),
-            ('36215798', 'Maria', 'Gomez', '222222222', 'maria@mail.com', 'SOCIO', 1),
-            ('32516017', 'Pedro', 'Lopez', '333333333', 'pedro@mail.com', 'NO_SOCIO', NULL),
-            ('06321894', 'Ana', 'Martinez', '444444444', 'ana@mail.com', 'SOCIO', 1),
-            ('36987125', 'Carlos', 'Suarez', '555555555', 'carlos@mail.com', 'NO_SOCIO', NULL),
-            ('42365178', 'Lucia', 'Diaz', '666666666', 'lucia@mail.com', 'SOCIO', 1),
-            ('45123789', 'Javier', 'Romero', '777777777', 'javier@mail.com', 'NO_SOCIO', NULL),
-            ('27369123', 'Valeria', 'Suarez', '888888888', 'valeria@mail.com', 'SOCIO', 1),
-            ('28145789', 'Martin', 'Fernandez', '999999999', 'martin@mail.com', 'NO_SOCIO', NULL),
-            ('30214563', 'Sofia', 'Torres', '101010101', 'sofia@mail.com', 'SOCIO', 1)
+            ('25632187', 'Juan', 'Perez', '111111111', 'juan@mail.com', 1, 1, '2026-01-10', 'SOCIO', 1),
+            ('36215798', 'Maria', 'Gomez', '222222222', 'maria@mail.com', 1, 1, '2026-02-15', 'SOCIO', 1),
+            ('32516017', 'Pedro', 'Lopez', '333333333', 'pedro@mail.com', 1, 0, '2026-03-20', 'NO_SOCIO', NULL),
+            ('06321894', 'Ana', 'Martinez', '444444444', 'ana@mail.com', 1, 1, '2026-01-12', 'SOCIO', 1),
+            ('36987125', 'Carlos', 'Suarez', '555555555', 'carlos@mail.com', 1, 0, '2026-04-05', 'NO_SOCIO', NULL),
+            ('42365178', 'Lucia', 'Diaz', '666666666', 'lucia@mail.com', 1, 1, '2026-05-22', 'SOCIO', 1),
+            ('45123789', 'Javier', 'Romero', '777777777', 'javier@mail.com', 1, 0, '2026-03-11', 'NO_SOCIO', NULL),
+            ('27369123', 'Valeria', 'Suarez', '888888888', 'valeria@mail.com', 1, 1, '2026-02-19', 'SOCIO', 1),
+            ('28145789', 'Martin', 'Fernandez', '999999999', 'martin@mail.com', 1, 0, '2026-01-30', 'NO_SOCIO', NULL),
+            ('30214563', 'Sofia', 'Torres', '101010101', 'sofia@mail.com', 1, 1, '2026-04-14', 'SOCIO', 1)
             """
         )
 
         //   FACTURAS DE PRUEBA
-
         db.execSQL(
             """
             INSERT INTO factura
@@ -103,9 +106,9 @@ class SQLiteHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS factura") // Se borra primero por la clave foránea
         db.execSQL("DROP TABLE IF EXISTS cliente")
         db.execSQL("DROP TABLE IF EXISTS usuario")
-        db.execSQL("DROP TABLE IF EXISTS factura")
         onCreate(db)
     }
 
